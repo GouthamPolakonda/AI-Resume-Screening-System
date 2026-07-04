@@ -14,6 +14,7 @@ def extract_text(file_path):
                     text += extracted + "\n"
 
         return text
+    
     elif extension == ".docx":
         document = Document(file_path)
         text = ""
