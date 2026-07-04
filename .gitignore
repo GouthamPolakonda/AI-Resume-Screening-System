@@ -1,0 +1,21 @@
+# Virtual Environment
+venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# VS code
+.vscode/
+
+# Environment Variables
+.env
+
+# Uploaded Resumes
+uploads/*
+
+#macOS
+.DS_Store
+
+#Windows
+Thumbs.db

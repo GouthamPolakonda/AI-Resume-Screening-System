@@ -1,0 +1,263 @@
+/* GOOGLE FONTS */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap');
+
+
+/* root variables */
+
+:root{
+    --bg:#111827;
+    --secondary:#1F2937;
+    --card:#374151;
+    --teal:#14B8A6;
+    --teal-light:#2DD4BF;
+    --white:#F9FAFB;
+    --gray:#D1D5DB;
+}
+
+/* Reset */
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+
+body{
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Lora',serif;
+    overflow-x: hidden;
+}
+
+/* Navbar */
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 80px;
+    background: rgba(31,41,55,.90);
+    /* position: sticky; */
+    top: 0;
+    backdrop-filter: blur(50px);
+    z-index: 1000;
+    /* box-shadow: 0 4px 25px rgba(20, 184, 166, .15); */
+}
+
+.logo{
+    font-family: 'Bebas Neue',sans-serif;
+    font-size: 38px;
+    color: var(--teal);
+    letter-spacing: 2px;
+}
+
+.logo i{
+    margin-right: 10px;
+}
+
+.navbar ul{
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.navbar a{
+    text-decoration: none;
+    color: var(--white);
+    transition: .3s;
+}
+
+.navbar a:hover{
+    color: var(--teal);
+}
+
+/* Hero Section */
+
+.hero{
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    padding: 80px 0;
+}
+
+.hero h1{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--teal);
+    letter-spacing: 3px;
+}
+
+.hero h3{
+    margin-top: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+}
+
+.hero p{
+    width: 70%;
+    margin: 25px auto;
+    line-height: 1.8;
+    color: var(--gray);
+}
+
+/* Upload Card */
+
+.upload-section{
+    width: 90%;
+    margin: auto;
+}
+
+.upload-card{
+    width: 75%;
+    margin: auto;
+    background: rgba(55,65,81.60);
+    padding: 45px;
+    border-radius: 20px;
+    box-shadow: 0 4px 25px rgba(20, 184, 166, .15); 
+}
+
+/* Form */
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+input[type="text"]{
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.description {
+    width: 100%;
+    height: 180px;          /* Adjust as needed */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    resize: none;           /* Prevent resizing */
+    overflow-y: auto;       /* Show scrollbar only when needed */
+    overflow-x: hidden;     /* Hide horizontal scrollbar */
+    box-sizing: border-box;
+}
+
+/* Upload Box */
+
+.upload-box{
+    margin-top: 15px;
+    border: 2px dashed var(--teal);
+    border-radius: 15px;
+    padding: 45px;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.upload-box:hover{
+    background:rgba(20, 184, 166, .08);
+}
+
+.upload-box i{
+    font-size: 55px;
+    color: var(--teal);
+}
+
+.upload-box p{
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.upload-box span{
+    display: block;
+    margin-top: 10px;
+    color: var(--gray);
+}
+
+.upload-box input{
+    margin-top: 20px;
+}
+
+.upload-box input[type="file"]{
+    display: none;
+}
+
+/* Button */
+
+button{
+    margin-top: 35px;
+    padding: 16px;
+    background: var(--teal);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    transition: .3s;
+}
+
+button:hover{
+    background: var(--teal-light);
+    transform: translateY(-4px);
+    box-shadow: 0 5px 25px rgba(20, 184, 166, .35); 
+}
+
+/* Feature Cards */
+
+.features{
+    display: flex;
+    justify-content: center;   /* Centers the cards horizontally */
+    align-items: center;
+    flex-wrap: wrap;           /* Moves cards to next line on smaller screens */
+    gap: 30px;                 /* Space between cards */
+    width: 100%;
+    margin: 50px auto;
+}
+
+.feature-card{
+    background: var(--secondary);
+    padding: 35px;
+    border-radius: 18px;
+    text-align: center;
+    transition: .3s;
+}
+
+.feature-card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(20, 184, 166, .25);
+}
+
+.feature-card i{
+    font-size: 45px;
+    color: var(--teal);
+}
+
+.feature-card h2{
+    margin-top: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+}
+
+.feature-card p{
+    margin-top: 15px;
+    color: var(--gray);
+}
+
+/* FJavaScript section */
+
+#file-name{
+    margin-top:15px;
+    color:var(--teal);
+    font-size:16px;
+    font-weight:500;
+}
