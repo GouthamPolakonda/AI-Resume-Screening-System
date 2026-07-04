@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 from utils.parser import extract_text
 from flask import Blueprint
 from flask import request
+from utils.preprocess import preprocess_text
 
 upload_bp = Blueprint("upload", __name__)
 
@@ -26,8 +27,13 @@ def upload():
     print(resume.filename)
 
     resume_text = extract_text(file_path)
-    print("\n========== RESUME TEXT ==========\n")
+    clean_text = preprocess_text(resume_text)
+    
+    print("\n========== RAW RESUME TEXT ==========\n")
     print(resume_text)
+
+    print("\n========== CLEAN TEXT ==========\n")
+    print(clean_text)
 
 
     return "Resume uploaded and parsed successfully"
