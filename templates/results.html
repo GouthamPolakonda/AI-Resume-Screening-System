@@ -3,23 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Screening Results</title>
+    <title>Resume Screening Results</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    
+
     <div class="results-container">
 
         <h1>Resume Screening Results</h1>
+
         <hr>
+
+        <!-- Job Information -->
+
+        <h2>Job Information</h2>
+
         <h3>Job Title</h3>
-        <p>{{ job_title }}</p>
+        <p>{{ jd_data.job_title }}</p>
+
+        <h3>Company</h3>
+        <p>{{ jd_data.company }}</p>
+
+        <h3>Location</h3>
+        <p>{{ jd_data.location }}</p>
+
+        <h3>Employment Type</h3>
+        <p>{{ jd_data.employment_type }}</p>
+
+        <h3>Required Education</h3>
+        <p>{{ jd_data.education }}</p>
+
+        <hr>
+
+        <!-- Resume Information -->
+
+        <h2>Candidate Information</h2>
+
         <h3>Resume File</h3>
         <p>{{ filename }}</p>
-        <h3>Match Score</h3>
-        <p>{{ match_score }}</p>
 
-        <h3>Candidate Name</h3>
+        <h3>Name</h3>
         <p>{{ resume_data.name }}</p>
 
         <h3>Email</h3>
@@ -28,16 +53,61 @@
         <h3>Phone</h3>
         <p>{{ resume_data.phone }}</p>
 
-        <h3>Skills</h3>
+        <h3>Degree</h3>
+        <p>{{ resume_data.education.degree }}</p>
+
+        <h3>CGPA</h3>
+        <p>{{ resume_data.education.cgpa }}</p>
+
+        <hr>
+
+        <!-- Resume Skills -->
+
+        <h2>Extracted Skills</h2>
 
         <ul>
+            {% for skill in resume_data.skills %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
 
-        {% for skill in resume_data.skills %}
+        <hr>
 
-        <li>{{ skill }}</li>
+        <!-- ATS Scores -->
 
-        {% endfor %}
+        <h2>ATS Analysis</h2>
 
+        <h3>Overall Resume Score</h3>
+        <p>{{ score_data.overall_score }}%</p>
+
+        <h3>Skill Match Score</h3>
+        <p>{{ score_data.skill_score }}%</p>
+
+        <h3>Education Score</h3>
+        <p>{{ score_data.education_score }}%</p>
+
+        <hr>
+
+        <!-- Matched Skills -->
+
+        <h2>Matched Skills</h2>
+
+        <ul>
+            {% for skill in score_data.matched_skills %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+
+        <!-- Missing Skills -->
+
+        <h2>Missing Skills</h2>
+
+        <ul>
+            {% for skill in score_data.missing_skills %}
+                <li>{{ skill }}</li>
+            {% endfor %}
         </ul>
 
     </div>

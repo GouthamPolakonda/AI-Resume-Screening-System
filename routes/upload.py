@@ -6,7 +6,8 @@ from werkzeug.utils import secure_filename
 from utils.parser import extract_text
 from utils.preprocess import preprocess_text
 from utils.extractor import extract_resume_data
-from utils.matcher import calculate_similarity
+from utils.jd_extractor import extract_jd_data
+from utils.matcher import (calculate_similarity, calculate_resume_score)
 
 upload_bp = Blueprint("upload", __name__)
 
@@ -21,6 +22,7 @@ def upload():
     # Save Uploaded Resume
     filename = secure_filename(resume.filename)
     upload_folder = "uploads"
+    os.makedirs(upload_folder, exist_ok=True)
     file_path = os.path.join(upload_folder, filename)
     resume.save(file_path)
 
@@ -34,10 +36,14 @@ def upload():
      # Extract Skills, Name, Email, Phone Number
     resume_data = extract_resume_data(resume_text, clean_text)
 
+    jd_data = extract_jd_data(job_title, job_description)
+    tfidf_score = calculate_similarity(clean_job_description, clean_text)
+
     # Calculate Match Score
-    match_score = calculate_similarity(
-        clean_job_description,
-        clean_text
+    score_data = calculate_resume_score(
+        resume_data,
+        jd_data,
+        tfidf_score
     )
 
     print("\n JOB TITLE : ")
@@ -59,13 +65,18 @@ def upload():
     for key, value in resume_data.items():
         print(f"{key} : {value}")
 
-    print("\n MATCH SCORE : \n")
-    print(f"{match_score}%")
+    print("\n JD DATA : \n")
+    for key, value in jd_data.items():
+        print(f"{key} : {value}")
+
+    print("\n ATS SCORE : \n")
+    for key, value in score_data.items():
+        print(f"{key} : {value}")
    
     return render_template(
         "results.html",
-        job_title=job_title,
         filename=filename,
         resume_data=resume_data,
-        match_score=match_score
+        jd_data=jd_data,
+        score_data=score_data
     )

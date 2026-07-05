@@ -164,6 +164,41 @@ def extract_name(text):
             return line
     return "Not Found"
 
+# Extract Education
+
+def extract_educationn(text):
+    education = {
+        "degree": "Not Found",
+        "cgpa": None
+    }
+    degree_patterns = [
+        "Bachelor of Technology",
+        "Bachelor of Engineering",
+        "B.Tech",
+        "B.E",
+        "Bachelor",
+        "Master of Technology",
+        "Master of Engineering",
+        "M.Tech",
+        "M.E",
+        "Master"
+    ]
+    text_lower = text.lower()
+    for degree in degree_patterns:
+        if degree.lower() in text_lower:
+            education["degree"] = degree
+            break
+    
+    cgpa_match = re.search(
+        r'(?:cgpa|gpa)\s*[:\-]?\s*(\d+(\.\d+)?)',
+        text,
+        re.IGNORECASE
+    )
+
+    if cgpa_match:
+        education["cgpa"] = float(cgpa_match.group(1))
+    return education
+
 # Extract Resume Data
 
 def extract_resume_data(resume_text, clean_text):
@@ -171,6 +206,7 @@ def extract_resume_data(resume_text, clean_text):
         "name": extract_name(resume_text),
         "email": extract_email(resume_text),
         "phone": extract_phone(resume_text),
-        "skills": extract_skills(clean_text)
+        "skills": extract_skills(clean_text),
+        "education": extract_education(resume_text)
     }
     return resume_data
