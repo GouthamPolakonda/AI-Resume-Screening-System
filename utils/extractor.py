@@ -166,7 +166,7 @@ def extract_name(text):
 
 # Extract Education
 
-def extract_educationn(text):
+def extract_education(text):
     education = {
         "degree": "Not Found",
         "cgpa": None
