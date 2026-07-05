@@ -1,3 +1,9 @@
+from spacy.matcher import PhraseMatcher
+import spacy
+import re
+
+nlp = spacy.load("en_core_web_sm")
+
 SKILLS = [
     # Programming Languages
     "python", "java", "c", "c++", "c#", ".net", "golang", "rust",
@@ -114,13 +120,57 @@ SKILLS = [
     "google docs"
 ]
 
-def extract_skills(clean_text):
-    found_skills = []
+matcher = PhraseMatcher(nlp.vocab, attr="LOWER")
+patterns = [nlp.make_doc(skill) for skill in SKILLS]
+matcher.add("SKILLS", patterns)
 
-    for skill in SKILLS:
-        if skill in clean_text:
-            found_skills.append(skill.title())
-    
-    found_skills = list(set(found_skills))
-    found_skills.sort()
-    return found_skills
+# Extract Skills
+
+def extract_skills(clean_text):
+    doc = nlp(clean_text)
+    matches = matcher(doc)
+    skills = set()
+
+    for match_id, start, end in matches:
+        skill = doc[start:end].text
+        skills.add(skill.title())
+    return sorted(skills)
+
+# Extract Text
+
+def extract_email(text):
+    pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    emails = re.findall(pattern, text)
+    if emails:
+        return emails[0]
+    return "Not Found"
+
+# Extract Phone Number
+
+def extract_phone(text):
+    pattern = r'(?:\+91[\-\s]?)?[6-9]\d{9}'
+    match = re.search(pattern, text)
+    if match:
+        return match.group()
+    return "Not Found"
+
+# Extract Names
+
+def extract_name(text):
+    lines = text.split("\n")
+    for line in lines:
+        line = line.strip()
+        if len(line) > 2:
+            return line
+    return "Not Found"
+
+# Extract Resume Data
+
+def extract_resume_data(resume_text, clean_text):
+    resume_data = {
+        "name": extract_name(resume_text),
+        "email": extract_email(resume_text),
+        "phone": extract_phone(resume_text),
+        "skills": extract_skills(clean_text)
+    }
+    return resume_data

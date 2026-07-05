@@ -1,12 +1,11 @@
 import os
 
-from flask import Blueprint
-from flask import request
+from flask import Blueprint, request, render_template
 from werkzeug.utils import secure_filename
 
 from utils.parser import extract_text
 from utils.preprocess import preprocess_text
-from utils.extractor import extract_skills
+from utils.extractor import extract_resume_data
 from utils.matcher import calculate_similarity
 
 upload_bp = Blueprint("upload", __name__)
@@ -32,8 +31,8 @@ def upload():
     clean_text = preprocess_text(resume_text)
     clean_job_description = preprocess_text(job_description)
 
-     # Extract Skills
-    skills = extract_skills(clean_text)
+     # Extract Skills, Name, Email, Phone Number
+    resume_data = extract_resume_data(resume_text, clean_text)
 
     # Calculate Match Score
     match_score = calculate_similarity(
@@ -56,10 +55,17 @@ def upload():
     print("\n CLEAN TEXT : \n")
     print(clean_text)
 
-    print("\n EXTRACTED SKILLS : \n")
-    print(skills)
+    print("\n RESUME DATA : \n")
+    for key, value in resume_data.items():
+        print(f"{key} : {value}")
 
     print("\n MATCH SCORE : \n")
     print(f"{match_score}%")
    
-    return "Resume uploaded and parsed successfully"
+    return render_template(
+        "results.html",
+        job_title=job_title,
+        filename=filename,
+        resume_data=resume_data,
+        match_score=match_score
+    )
