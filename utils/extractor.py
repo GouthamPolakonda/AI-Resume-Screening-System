@@ -8,20 +8,25 @@ SKILLS = [
     # Programming Languages
     "python", "java", "c", "c++", "c#", ".net", "golang", "rust",
     "swift", "kotlin", "r", "matlab", "perl", "php", "typescript",
-    "scala", "ruby",
+    "scala", "ruby","core java", "advanced java", "exception handling", 
+    "multithreading", "jdbc", "collections framework", "generics", "java streams", "lambda expressions",
 
     # Web Development
     "html", "css", "javascript", "react", "angular", "vue.js",
     "node.js", "express.js", "bootstrap", "tailwind css", "jquery",
-    "rest api", "graphql", "flask", "django", "spring", "spring boot",
+    "rest api", "graphql", "flask", "django", "spring", "spring boot","spring mvc",
+    "spring security", "spring data jpa", "hibernate", "jpa",
 
     # Databases
     "sql", "mysql", "postgresql", "mongodb", "oracle", "sqlite",
-    "firebase", "redis", "cassandra", "dynamodb",
+    "firebase", "redis", "cassandra", "dynamodb", "pl/sql", "sql server",
+
 
     # Version Control & DevOps
     "git", "github", "github actions", "gitlab ci", "docker",
-    "kubernetes", "jenkins", "terraform", "ansible", "helm",
+    "kubernetes", "jenkins", "terraform", "ansible", "helm", "intellij",
+    "intellij idea", "eclipse", "vs code", "visual studio code", "jupyter notebook", 
+    "mysql workbench", "maven", "gradle",
 
     # Cloud Platforms
     "aws", "azure",
@@ -34,14 +39,14 @@ SKILLS = [
     "tensorflow", "keras", "pytorch", "opencv", "scikit learn",
     "pandas", "numpy", "scipy", "matplotlib", "seaborn",
     "xgboost", "lightgbm", "langchain", "hugging face",
-    "openai", "llm", "generative ai",
+    "openai", "llm", "generative ai", "feature engineering", "data preprocessing",
 
     # Big Data
     "hadoop", "spark", "hive", "airflow",
 
     # Testing
     "selenium", "junit", "testng", "pytest",
-    "postman", "cypress", "playwright",
+    "postman", "cypress", "playwright", "mockito",
 
     # Mobile Development
     "android", "ios", "flutter", "react native", "xamarin",
@@ -63,8 +68,9 @@ SKILLS = [
     # Computer Science Fundamentals
     "data structures", "algorithms", "oop",
     "operating systems", "computer networks", "dbms",
-    "system design", "microservices",
-    "design patterns", "agile", "scrum",
+    "system design", "microservices", "design patterns", 
+    "agile", "scrum", "software engineering",
+    "computer organization", "compiler design", "distributed systems",
 
     # Soft Skills
     "communication", "verbal communication",
@@ -120,6 +126,18 @@ SKILLS = [
     "google docs"
 ]
 
+SKILL_ALIASES = {
+    "core java": "Java",
+    "advanced java": "Java",
+    "java se": "Java",
+    "oops": "OOP",
+    "object oriented programming": "OOP",
+    "mysql database": "MySQL",
+    "js": "JavaScript",
+    "ml": "Machine Learning",
+    "ai": "Artificial Intelligence"
+}
+
 matcher = PhraseMatcher(nlp.vocab, attr="LOWER")
 patterns = [nlp.make_doc(skill) for skill in SKILLS]
 matcher.add("SKILLS", patterns)
@@ -133,8 +151,23 @@ def extract_skills(clean_text):
 
     for match_id, start, end in matches:
         skill = doc[start:end].text
-        skills.add(skill.title())
+        normalized = SKILL_ALIASES.get(
+            skill.lower(),
+            skill.title()
+        )
+        skills.add(normalized)
     return sorted(skills)
+
+def categorize_skills(skills):
+    categories = {
+        "Programming": [],
+        "Web": [],
+        "Database": [],
+        "AI": [],
+        "Tools": [],
+        "Soft Skills": []
+    }
+    return categories
 
 # Extract Text
 
@@ -207,6 +240,7 @@ def extract_resume_data(resume_text, clean_text):
         "email": extract_email(resume_text),
         "phone": extract_phone(resume_text),
         "skills": extract_skills(clean_text),
-        "education": extract_education(resume_text)
+        "education": extract_education(resume_text),
+         "categorized_skills": categorize_skills(extract_skills(clean_text))
     }
     return resume_data
