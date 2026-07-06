@@ -1,6 +1,8 @@
 from spacy.matcher import PhraseMatcher
 import spacy
 import re
+from utils.project_extractor import extract_projects
+from utils.certification_extractor import extract_certifications
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -241,6 +243,9 @@ def extract_resume_data(resume_text, clean_text):
         "phone": extract_phone(resume_text),
         "skills": extract_skills(clean_text),
         "education": extract_education(resume_text),
-         "categorized_skills": categorize_skills(extract_skills(clean_text))
+        "categorized_skills": categorize_skills(extract_skills(clean_text)),
+        "projects": extract_projects(resume_text),
+        "certifications": extract_certifications(resume_text)
+
     }
     return resume_data

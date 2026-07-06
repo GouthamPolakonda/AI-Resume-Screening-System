@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Screening Results</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 </head>
 
 <body>
@@ -37,7 +37,7 @@
 
         <hr>
 
-        <!-- Resume Information -->
+        <!-- Candidate Information -->
 
         <h2>Candidate Information</h2>
 
@@ -53,6 +53,12 @@
         <h3>Phone</h3>
         <p>{{ resume_data.phone }}</p>
 
+        <hr>
+
+        <!-- Education -->
+
+        <h2>Education</h2>
+
         <h3>Degree</h3>
         <p>{{ resume_data.education.degree }}</p>
 
@@ -61,19 +67,74 @@
 
         <hr>
 
-        <!-- Resume Skills -->
+        <!-- Skills -->
 
         <h2>Extracted Skills</h2>
+        {% if resume_data.skills %}
 
         <ul>
             {% for skill in resume_data.skills %}
-                <li>{{ skill }}</li>
+            <li>{{ skill }}</li>
             {% endfor %}
         </ul>
 
+        {% else %}
+        <p>No skills found.</p>
+        {% endif %}
+
         <hr>
 
-        <!-- ATS Scores -->
+        <!-- Projects -->
+
+        <h2>Projects</h2>
+        {% if resume_data.projects %}
+            {% for project in resume_data.projects %}
+
+                <div>
+
+                    <h3>{{ project.title }}</h3>
+                    <strong>Technologies:</strong>
+                    {% if project.technologies %}
+
+                        <ul>
+                            {% for tech in project.technologies %}
+                                <li>{{ tech }}</li>
+                            {% endfor %}
+                        </ul>
+
+                    {% else %}
+                        <p>No technologies extracted.</p>
+                    {% endif %}
+                </div>
+
+                <br>
+            {% endfor %}
+        {% else %}
+            <p>No projects found.</p>
+        {% endif %}
+        <hr>
+
+        <!-- Certifications -->
+
+        <h2>Certifications</h2>
+        {% if resume_data.certifications %}
+
+            <ul>
+            {% for cert in resume_data.certifications %}
+                <li>
+                    <strong>{{ cert.name }}</strong>
+                    ({{ cert.provider }})
+                </li>
+            {% endfor %}
+            </ul>
+
+        {% else %}
+            <p>No certifications found.</p>
+        {% endif %}
+
+        <hr>
+
+        <!-- ATS Analysis -->
 
         <h2>ATS Analysis</h2>
 
@@ -91,26 +152,38 @@
         <!-- Matched Skills -->
 
         <h2>Matched Skills</h2>
+        {% if score_data.matched_skills %}
 
         <ul>
             {% for skill in score_data.matched_skills %}
-                <li>{{ skill }}</li>
+            <li>{{ skill }}</li>
             {% endfor %}
         </ul>
+
+        {% else %}
+        <p>No matched skills.</p>
+        {% endif %}
 
         <hr>
 
         <!-- Missing Skills -->
 
         <h2>Missing Skills</h2>
+        {% if score_data.missing_skills %}
 
         <ul>
             {% for skill in score_data.missing_skills %}
-                <li>{{ skill }}</li>
+            <li>{{ skill }}</li>
             {% endfor %}
         </ul>
 
+        {% else %}
+        <p>No missing skills.</p>
+        {% endif %}
+
     </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
 </body>
 </html>
